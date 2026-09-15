@@ -29,3 +29,5 @@ sudo docker compose -f compose.isaac.yaml build
 # Launch container
 sudo docker compose -f compose.isaac.yaml run --rm isaac-base 
 ```
+
+To test your setup, run `isaacsim` and the sim window should appear.
