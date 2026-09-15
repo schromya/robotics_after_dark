@@ -1,0 +1,42 @@
+FROM ubuntu:24.04
+
+ENV VIRTUAL_ENV=/venv-isaac
+
+
+############## System Dependencies ##############
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates
+
+# Setup UV (and activate venv)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin/:$PATH"
+RUN uv venv --python 3.12 "$VIRTUAL_ENV"
+ENV PATH="${VIRTUAL_ENV}/bin:$PATH"
+RUN echo 'source "$VIRTUAL_ENV/bin/activate"' >> /root/.bashrc
+
+
+############## IsaacSim and IsaacLab ##############
+RUN apt-get update && apt-get install -y libgl1-mesa-dev libx11-dev libxcursor-dev \
+    libxi-dev libxinerama-dev libxrandr-dev libgomp1 libxt6t64
+RUN uv pip install mujoco-usd-converter --prerelease=allow
+RUN uv pip install "isaacsim[all,extscache]==6.0.0.1" --extra-index-url https://pypi.nvidia.com --index-strategy unsafe-best-match
+
+# IsaacLab 3.0.0 (beta)
+RUN uv pip install "isaaclab[isaacsim,all]==3.0.0b2" --extra-index-url https://pypi.nvidia.com \
+    --index-strategy unsafe-best-match --prerelease=allow
+
+RUN uv pip install -U torch==2.10.0 torchvision==0.25.0 --index-url https://download.pytorch.org/whl/cu128
+
+ENV OMNI_KIT_ACCEPT_EULA=YES
+
+
+############## Environment Niceties ##############
+
+# Add python alias to python3 
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+WORKDIR /workspace
+
+CMD ["bash"]
