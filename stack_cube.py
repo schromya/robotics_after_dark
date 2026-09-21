@@ -1,5 +1,13 @@
 """
-Stacking cube teleop
+Stacking cube teleop.
+
+Keyboard controls...
+W/S: X
+A/D: Y
+Q/E: Z
+Z/X, T/G, C/V: rotation
+K: gripper
+R: reset
 """
 
 import os
@@ -20,6 +28,7 @@ from isaacsim.core.experimental.objects import Cube
 from isaacsim.core.experimental.prims import GeomPrim, RigidPrim
 from isaacsim.core.simulation_manager import SimulationManager
 from isaacsim.storage.native import get_assets_root_path
+from isaaclab.devices import Se3Keyboard, Se3KeyboardCfg
 
 
 # Default configuration constants
@@ -30,9 +39,7 @@ CUBE_ORIENTATION = np.array([1, 0, 0, 0])
 HOME_POSITION = np.array([0.2, 0.0, 0.3])
 
 
-DOWNWARD_ORIENTATION = np.array(
-    [[0.7071068, 0.0, 0.7071068, 0.0]]
-)  # Downward-facing quaternion [w, x, y, z]
+DOWNWARD_ORIENTATION = np.array([[0.7071068, 0.0, 0.7071068, 0.0]])  
 
 # Scene configuration
 ROBOT_USD_PATH = "./trossen_ai_isaac/assets/robots/wxai/wxai_base.usd"
@@ -50,7 +57,16 @@ class StackCubeTeleop:
     """Teleop for stacking cubes"""
 
     def __init__(self):
-        """TODO"""
+        self.control_position = HOME_POSITION.astype(float).copy()
+        self.control_orientation = DOWNWARD_ORIENTATION.reshape(4).copy()
+        self.keyboard = Se3Keyboard(
+            Se3KeyboardCfg(
+                pos_sensitivity=0.002,
+                rot_sensitivity=0.01,
+            )
+        )
+        self.keyboard.add_callback("R", self.reset)
+
 
     def setup_scene(self) -> None:
         """Initialize simulation scene with robot, cube, and environment."""
@@ -95,11 +111,24 @@ class StackCubeTeleop:
     def step(self):
         """Execute one simulation step.
         """
+        command = self.keyboard.advance().detach().cpu().numpy()
+        self.control_position += command[:3]
 
-        # TODO
+        self.robot.set_end_effector_pose(position=self.control_position,
+            orientation=self.control_orientation)
+
+        if command[-1] > 0:
+            self.robot.open_gripper()
+        else:
+            self.robot.close_gripper()
+            
 
     def reset(self) -> None:
         """Reset task to initial state."""
+        self.keyboard.reset()
+        self.control_position = HOME_POSITION.astype(float).copy()
+        self.control_orientation = DOWNWARD_ORIENTATION.reshape(4).copy()
+
         self.robot.reset_to_default_pose()
         self.cube.set_world_poses(
             positions=CUBE_POSITION.reshape(1, -1),
