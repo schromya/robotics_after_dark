@@ -33,4 +33,10 @@ Repo for the eclectic pursuits of the RAD team.
     docker compose -f compose.isaac.yaml run --rm isaac-base 
     ```
 
-    To test your setup, run `isaacsim` and the sim window should appear.
+    To test your setup, run `isaacsim` and the sim window should appear. The first time you run this, the center may stay black for a while. Wait for the gridlines to show up.
+
+
+## Running
+```bash
+python3 stack_cube.py
+```

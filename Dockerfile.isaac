@@ -32,11 +32,15 @@ RUN uv pip install -U torch==2.10.0 torchvision==0.25.0 --index-url https://down
 ENV OMNI_KIT_ACCEPT_EULA=YES
 
 
-############## Environment Niceties ##############
+############## Workspace dependencies ############
+WORKDIR /workspace
+COPY . /workspace
+RUN uv pip install trossen_ai_isaac/source/trossen_ai_isaac/
 
+
+############## Environment Niceties ##############
 # Add python alias to python3 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-WORKDIR /workspace
 
 CMD ["bash"]
