@@ -13,9 +13,9 @@
 # Exclude editor config
 .vscode/
 .vs/
-.venv/*
+.venv/
 
-typings/*
+typings/
 
 # Exclude temporary folders
 *.egg-info/
