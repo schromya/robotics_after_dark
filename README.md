@@ -36,6 +36,14 @@ python scripts/pd_with_grav_comp_controller_pendulum.py
 
 **Note:** You can play with the PD gains and other settings in `scripts/pd_with_grav_comp_controller_pendulum.py`.
 
+## Task
+Push Cube:
+```bash
+python3 scripts/push_cube.py
+```
+
+To control the (x,y) position of end effector use arrow keys
+
 ## Troubleshooting
 
 ### VS Code IntelliSense does not work for `mujoco`
