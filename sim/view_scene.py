@@ -28,7 +28,7 @@ def main():
         SimulationCfg(dt=1.0 / 120.0, device=args.device)
     )
     sim.set_camera_view(
-        eye=[2.0, 0.0, 1.5],
+        eye=[-2.0, 0.0, 1.5],
         target=[0.0, 0.0, 1.0],
     )
 
