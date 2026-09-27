@@ -2,7 +2,7 @@
 Displays stationary ai setup.
 
 Usage:
-python3 -m sim.view_scene --visualizer kit
+python3 -m sim.view_scene --visualizer kit --enable_cameras
 """
 
 import argparse
