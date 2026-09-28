@@ -57,7 +57,7 @@ class SimTeleop:
 
         self.keyboard_ = Se3Keyboard(
             Se3KeyboardCfg(
-                    pos_sensitivity=0.002,
+                    pos_sensitivity=0.005,
                     rot_sensitivity=0.01,
                 )
             )

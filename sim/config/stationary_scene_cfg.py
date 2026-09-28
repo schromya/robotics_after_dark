@@ -32,27 +32,27 @@ class StationarySceneCfg(InteractiveSceneCfg):
 
 
     ##################### Cameras #####################
-    high_camera = D405_RGB_CFG.replace(
-        prim_path="{ENV_REGEX_NS}/Robot/cam_high_link/cam_high_color_frame/cam_high",
-    )
+    # high_camera = D405_RGB_CFG.replace(
+    #     prim_path="{ENV_REGEX_NS}/Robot/cam_high_link/cam_high_color_frame/cam_high",
+    # )
 
-    low_camera = D405_RGB_CFG.replace(
-        prim_path="{ENV_REGEX_NS}/Robot/cam_low_link/cam_low_color_frame/cam_low",
-    )
+    # low_camera = D405_RGB_CFG.replace(
+    #     prim_path="{ENV_REGEX_NS}/Robot/cam_low_link/cam_low_color_frame/cam_low",
+    # )
 
-    left_follower_camera = D405_RGB_CFG.replace(
-        prim_path=(
-            "{ENV_REGEX_NS}/Robot/follower_left_camera_link/"
-            "follower_left_camera_color_frame/cam_left"
-        ),
-    )
+    # left_follower_camera = D405_RGB_CFG.replace(
+    #     prim_path=(
+    #         "{ENV_REGEX_NS}/Robot/follower_left_camera_link/"
+    #         "follower_left_camera_color_frame/cam_left"
+    #     ),
+    # )
 
-    right_follower_camera = D405_RGB_CFG.replace(
-        prim_path=(
-            "{ENV_REGEX_NS}/Robot/follower_right_camera_link/"
-            "follower_right_camera_color_frame/cam_right"
-        ),
-    )
+    # right_follower_camera = D405_RGB_CFG.replace(
+    #     prim_path=(
+    #         "{ENV_REGEX_NS}/Robot/follower_right_camera_link/"
+    #         "follower_right_camera_color_frame/cam_right"
+    #     ),
+    # )
 
 
     light = AssetBaseCfg(

@@ -20,7 +20,7 @@ def arm_action(side: str) -> mdp.DifferentialInverseKinematicsActionCfg:
     return mdp.DifferentialInverseKinematicsActionCfg(
         asset_name="robot",
         joint_names=[f"follower_{side}_joint_[0-5]"],
-        body_name=f"follower_{side}_link_6",
+        body_name=f"follower_{side}_link_5",
         scale=1.0,
         controller=DifferentialIKControllerCfg(
             command_type="pose",
@@ -57,10 +57,15 @@ class StackCubeSceneCfg(StationarySceneCfg):
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
             collision_props=sim_utils.CollisionPropertiesCfg(),
             mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
+            physics_material=sim_utils.RigidBodyMaterialCfg(
+                static_friction=0.5,
+                dynamic_friction=0.4,
+                restitution=0.0,
+            ),
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(1.0, 0.0, 0.0)),
         ),
         init_state=RigidObjectCfg.InitialStateCfg(
-            pos=(0.1, -0.1, 0.55),
+            pos=(0.0, -0.1, 0.55),
         ),
     )
     blue_cube = red_cube.replace(
@@ -69,7 +74,7 @@ class StackCubeSceneCfg(StationarySceneCfg):
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.0, 0.0, 1.0)),
         ),
         init_state=RigidObjectCfg.InitialStateCfg(
-            pos=(0.1, 0.1, 0.55),
+            pos=(0.0, 0.1, 0.55),
         ),
     )
 

@@ -15,7 +15,7 @@ STATIONARY_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         usd_path=_USD_PATH,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
-            disable_gravity=False,
+            disable_gravity=True,  # TODO (@schromya): re-enable when sagging figured out
             max_depenetration_velocity=5.0,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
@@ -32,18 +32,37 @@ STATIONARY_CFG = ArticulationCfg(
             "follower_right_left_carriage_joint": 0.0,
         },
     ),
-    # Use USD stiffness, damping and effort_limit parameters
+    # TODO (@schromya): Figure out why stiffness/damping is so high
     actuators={
         "arm_actuators": ImplicitActuatorCfg(
             joint_names_expr=["follower_(left|right)_joint_[0-5]"],
-            stiffness=None,
-            damping=None,
+            friction=0.01,
+            armature=0.01,
+            stiffness={
+                "follower_(left|right)_joint_0": 150.0,
+                "follower_(left|right)_joint_1": 2000.0,
+                "follower_(left|right)_joint_2": 2000.0,
+                "follower_(left|right)_joint_3": 500.0,
+                "follower_(left|right)_joint_4": 500.0,
+                "follower_(left|right)_joint_5": 500.0,
+            },
+            damping={
+                "follower_(left|right)_joint_0": 5.0,
+                "follower_(left|right)_joint_1": 5.0,
+                "follower_(left|right)_joint_2": 5.0,
+                "follower_(left|right)_joint_3": 5.0,
+                "follower_(left|right)_joint_4": 5.0,
+                "follower_(left|right)_joint_5": 5.0,
+            },
         ),
+
         # right_carriage_joint is a mimic joint specified in USD file
         "gripper_actuators": ImplicitActuatorCfg(
             joint_names_expr=["follower_(left|right)_left_carriage_joint"],
-            stiffness=None,
-            damping=None,
+            friction=0.01,
+            armature=0.01,
+            stiffness=1000.0,
+            damping=5.0,
         ),
     },
 
