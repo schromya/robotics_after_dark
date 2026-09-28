@@ -9,7 +9,7 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 
 D405_RGB_CFG = CameraCfg(
     spawn=None,
-    update_period=1.0 / 30.0,
+    update_period=1.0 / 15.0,
     width=1280,
     height=720,
     data_types=["rgb"],

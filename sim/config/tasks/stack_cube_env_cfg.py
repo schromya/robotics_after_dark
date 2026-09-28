@@ -1,13 +1,51 @@
 
 from ..stationary_scene_cfg import StationarySceneCfg
 
+from isaaclab.controllers import DifferentialIKControllerCfg
 from isaaclab.envs import ManagerBasedEnvCfg, mdp, ViewerCfg
 from isaaclab.managers import ObservationGroupCfg, ObservationTermCfg
 import isaaclab.sim as sim_utils
 from isaaclab.assets import RigidObjectCfg
 from isaaclab.utils import configclass
 
+############################################# HELPERS ##############################################
+def arm_action(side: str) -> mdp.DifferentialInverseKinematicsActionCfg:
+    """
+    Template for cartesian arm controller.
+    Args:
+        side: 'left' or 'right'.
+    Returns:
+        IK action config for the arm.
+    """
+    return mdp.DifferentialInverseKinematicsActionCfg(
+        asset_name="robot",
+        joint_names=[f"follower_{side}_joint_[0-5]"],
+        body_name=f"follower_{side}_link_6",
+        scale=1.0,
+        controller=DifferentialIKControllerCfg(
+            command_type="pose",
+            use_relative_mode=True,
+            ik_method="dls",
+        ),
+    )
 
+
+def gripper_action(side: str) -> mdp.BinaryJointPositionActionCfg:
+    """
+    Template for gripper controller.
+    Args:
+        side: 'left' or 'right'.
+    Returns:
+        Action config for the gripper.
+    """
+    joint = f"follower_{side}_left_carriage_joint"
+    return mdp.BinaryJointPositionActionCfg(
+        asset_name="robot",
+        joint_names=[joint],
+        open_command_expr={joint: 0.044},
+        close_command_expr={joint: 0.0},
+    )
+####################################################################################################
 
 @configclass
 class StackCubeSceneCfg(StationarySceneCfg):
@@ -38,12 +76,10 @@ class StackCubeSceneCfg(StationarySceneCfg):
 
 @configclass
 class ActionsCfg:
-    arm_positions = mdp.JointPositionActionCfg(
-        asset_name="robot",
-        joint_names=["follower_(left|right)_joint_[0-5]"],
-        scale=1.0,
-        use_default_offset=False,
-    )
+    left_arm = arm_action("left")
+    left_gripper = gripper_action("left")
+    right_arm = arm_action("right")
+    right_gripper = gripper_action("right")
 
 
 @configclass
@@ -77,3 +113,4 @@ class StackCubeEnvCfg(ManagerBasedEnvCfg):
     def __post_init__(self):
         self.sim.dt = 1.0 / 60.0
         self.decimation = 2  # One action every 2 physics steps: 30 Hz
+        self.sim.render_interval = 4 # Render every 4 physics steps: 15 Hz.

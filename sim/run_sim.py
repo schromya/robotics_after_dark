@@ -1,8 +1,8 @@
 """
-Run the stationary ai simulation
+Run the stationary ai simulation.
 
 Usage:
-python3 -m sim.run_sim --visualizer kit --enable_cameras
+python3 -m sim.run_sim
 """
 import argparse
 
@@ -10,6 +10,12 @@ from isaaclab.app import AppLauncher
 
 parser = argparse.ArgumentParser()
 AppLauncher.add_app_launcher_args(parser)
+parser.set_defaults(
+    visualizer="kit",
+    enable_cameras=True,
+    device="cuda:0",
+    rendering_mode="performance",
+)
 args = parser.parse_args()
 
 app_launcher = AppLauncher(args)
