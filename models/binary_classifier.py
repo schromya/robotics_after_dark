@@ -1,15 +1,17 @@
 import torch
 import torch.nn as nn
 from torchvision.models.resnet import ResNet, BasicBlock
+from torchvision.models import resnet18, ResNet18_Weights
 
 
 class BinaryClassifier(nn.Module):
     def __init__(self):
         super().__init__()
 
-        # TODO (@schromya): hil-serl uses a more complex backbone (learned pooling).
-        #                   May need to upgrade later.
-        self.backbone = ResNet(BasicBlock, [1, 1, 1, 1])  # Resnet-10
+        # TODO (@schromya): hil-serl uses a resnet-10 with learned pooling. May need to change.
+
+        weights = ResNet18_Weights.DEFAULT
+        self.backbone = resnet18(weights=weights)  # Pretrained weights
         feature_dim = self.backbone.fc.in_features
         self.backbone.fc = nn.Identity()
     
@@ -26,7 +28,7 @@ class BinaryClassifier(nn.Module):
         return self.head(features)
 
 
-model = BinaryClassifier(num_outputs=1)
-images = torch.randn(2, 3, 224, 224)
+model = BinaryClassifier()
+images = torch.randn(2, 3, 720, 1280)  # 2 1280x720 RGB images
 outputs = model(images)
 print(outputs.shape)
