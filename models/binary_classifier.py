@@ -27,8 +27,8 @@ class BinaryClassifier(nn.Module):
         features = self.backbone(x)
         return self.head(features)
 
-
-model = BinaryClassifier()
-images = torch.randn(2, 3, 720, 1280)  # 2 1280x720 RGB images
-outputs = model(images)
-print(outputs.shape)
+if __name__ == "__main__":
+    model = BinaryClassifier()
+    images = torch.randn(2, 3, 720, 1280)  # 2 1280x720 RGB images
+    outputs = model(images)
+    print(outputs.shape)

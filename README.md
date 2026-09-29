@@ -38,5 +38,5 @@ Repo for the eclectic pursuits of the RAD team.
 
 ## Running
 ```bash
-python3 stack_cube.py
+python3 -m sim.run_sim_teleop
 ```
