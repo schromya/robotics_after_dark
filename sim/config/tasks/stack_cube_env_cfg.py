@@ -3,7 +3,7 @@ from ..stationary_scene_cfg import StationarySceneCfg
 
 from isaaclab.controllers import DifferentialIKControllerCfg
 from isaaclab.envs import ManagerBasedEnvCfg, mdp, ViewerCfg
-from isaaclab.managers import ObservationGroupCfg, ObservationTermCfg
+from isaaclab.managers import ObservationGroupCfg, ObservationTermCfg, SceneEntityCfg
 import isaaclab.sim as sim_utils
 from isaaclab.assets import RigidObjectCfg
 from isaaclab.utils import configclass
@@ -99,7 +99,23 @@ class ObservationsCfg:
             self.enable_corruption = False
             self.concatenate_terms = True
 
+    @configclass
+    class ImageCfg(ObservationGroupCfg):
+        high_camera = ObservationTermCfg(
+            func=mdp.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("high_camera"),
+                "data_type": "rgb",
+                "normalize": False,  # Preserve uint8 pixels for PNG.
+            },
+        )
+
+        def __post_init__(self):
+            self.enable_corruption = False
+            self.concatenate_terms = False
+
     policy: PolicyCfg = PolicyCfg()
+    images: ImageCfg = ImageCfg()
 
 
 @configclass
