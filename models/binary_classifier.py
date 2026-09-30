@@ -12,6 +12,7 @@ class BinaryClassifier(nn.Module):
 
         weights = ResNet18_Weights.DEFAULT
         self.backbone = resnet18(weights=weights)  # Pretrained weights
+        self.backbone.requires_grad_(False)        # Freeze weights
         feature_dim = self.backbone.fc.in_features
         self.backbone.fc = nn.Identity()
     
@@ -29,6 +30,6 @@ class BinaryClassifier(nn.Module):
 
 if __name__ == "__main__":
     model = BinaryClassifier()
-    images = torch.randn(2, 3, 720, 1280)  # 2 1280x720 RGB images
+    images = torch.randn(2, 3, 224, 224)  # 2 128x128 RGB images
     outputs = model(images)
     print(outputs.shape)
