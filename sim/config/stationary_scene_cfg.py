@@ -32,9 +32,9 @@ class StationarySceneCfg(InteractiveSceneCfg):
 
 
     ##################### Cameras #####################
-    # high_camera = D405_RGB_CFG.replace(
-    #     prim_path="{ENV_REGEX_NS}/Robot/cam_high_link/cam_high_color_frame/cam_high",
-    # )
+    high_camera = D405_RGB_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot/cam_high_link/cam_high_color_frame/cam_high",
+    )
 
     # low_camera = D405_RGB_CFG.replace(
     #     prim_path="{ENV_REGEX_NS}/Robot/cam_low_link/cam_low_color_frame/cam_low",

@@ -53,7 +53,7 @@ class StackCubeSceneCfg(StationarySceneCfg):
     red_cube = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/Cube1",
         spawn=sim_utils.CuboidCfg(
-            size=(0.05, 0.05, 0.05),
+            size=(0.1, 0.1, 0.02),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
             collision_props=sim_utils.CollisionPropertiesCfg(),
             mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
@@ -71,6 +71,7 @@ class StackCubeSceneCfg(StationarySceneCfg):
     blue_cube = red_cube.replace(
         prim_path="{ENV_REGEX_NS}/Cube2",
         spawn=red_cube.spawn.replace(
+            size=(0.05, 0.05, 0.05),
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.0, 0.0, 1.0)),
         ),
         init_state=RigidObjectCfg.InitialStateCfg(
