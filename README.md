@@ -37,6 +37,16 @@ Repo for the eclectic pursuits of the RAD team.
 
 
 ## Running
+
+Run teleop:
 ```bash
 python3 -m sim.run_sim_teleop
 ```
+
+Run success classifier:
+```bash
+# Accuracy: 81.8%, Avg loss: ~0.48
+python3 models/train_classifier.py
+```
+
+
