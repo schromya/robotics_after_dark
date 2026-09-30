@@ -7,7 +7,8 @@ ENV VIRTUAL_ENV=/venv-isaac
 
 RUN apt-get update && apt-get install -y \
     curl \
-    ca-certificates
+    ca-certificates \
+    libglib2.0-0t64
 
 # Setup UV (and activate venv)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -35,6 +36,7 @@ ENV OMNI_KIT_ACCEPT_EULA=YES
 ############## Workspace dependencies ############
 WORKDIR /workspace
 COPY . /workspace
+RUN uv pip install opencv-python
 RUN uv pip install trossen_ai_isaac/source/trossen_ai_isaac/
 
 
